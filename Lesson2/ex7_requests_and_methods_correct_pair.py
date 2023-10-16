@@ -1,18 +1,23 @@
 import requests
 
-methods = {"method": ["POST", "GET", "PUT", "DELETE"]}
+method_list = ["POST", "GET", "PUT", "DELETE"]
+payload = {"method": method_list}
 
 # part3. Correct pair method-request
-for method in methods["method"]:
+for method in method_list:
     if method == "GET":
-        response = requests.get("https://playground.learnqa.ru/ajax/api/compare_query_type", params=method[1])
+        response = requests.get("https://playground.learnqa.ru/ajax/api/compare_query_type", params=payload)
         print(response.text)
+        print(response.status_code)
     elif method == "POST":
-        response = requests.post("https://playground.learnqa.ru/ajax/api/compare_query_type", data=method[0])
+        response = requests.post("https://playground.learnqa.ru/ajax/api/compare_query_type", data=payload)
         print(response.text)
+        print(response.status_code)
     elif method == "PUT":
-        response = requests.put("https://playground.learnqa.ru/ajax/api/compare_query_type", data=method[2])
+        response = requests.put("https://playground.learnqa.ru/ajax/api/compare_query_type", data=payload)
         print(response.text)
+        print(response.status_code)
     elif method == "DELETE":
-        response = requests.delete("https://playground.learnqa.ru/ajax/api/compare_query_type", data=method[3])
+        response = requests.delete("https://playground.learnqa.ru/ajax/api/compare_query_type", data=payload)
         print(response.text)
+        print(response.status_code)
