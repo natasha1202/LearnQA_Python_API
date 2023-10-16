@@ -31,10 +31,9 @@ empty_login = {"login": "", "password": most_common_passwords}
 not_existing_login = {"login": "any_user", "password": most_common_passwords}
 not_existing_password = {"login": "super_admin", "password": "wrong_pwd"}
 
-
-
 cookies = {}
-'''
+
+# login is wrong or password out of the list
 for playload in [empty_login, not_existing_login, not_existing_password]:
     response = requests.post("https://playground.learnqa.ru/ajax/api/get_secret_password_homework", data=playload)
     if playload == empty_login:
@@ -43,8 +42,9 @@ for playload in [empty_login, not_existing_login, not_existing_password]:
         print(f"Login does not exist {response.status_code}")
     elif playload == not_existing_password:
         print(f"Password is wrong {response.status_code}")
+        print(response.text)
 
-'''
+# passwords from the list 'Top 25 most common passwords by year according to SplashData'
 for password in most_common_passwords:
     admin_credentials = {"login": "super_admin", "password": password}
     response1 = requests.post("https://playground.learnqa.ru/ajax/api/get_secret_password_homework", data=admin_credentials)
@@ -57,8 +57,7 @@ for password in most_common_passwords:
         print(admin_credentials)
 
 
-'''
+
 # missing cookie
 response3 = requests.post("https://playground.learnqa.ru/ajax/api/check_auth_cookie")
 print(response3.text)
-'''
