@@ -1,6 +1,8 @@
+from random import randint
+
 import requests
 
-most_common_passwords = ["password", "password", "123456", "123456", "123456", "123456", "123456", "123456", "123456",
+most_common_passwords = {"password", "password", "123456", "123456", "123456", "123456", "123456", "123456", "123456",
                          "123456", "123456", "password", "password", "password", "password", "password", "password",
                          "123456789", "12345678", "12345678", "12345678", "12345", "12345678", "12345", "12345678",
                          "123456789", "qwerty", "qwerty", "abc123", "qwerty", "12345678", "qwerty", "12345678",
@@ -26,9 +28,13 @@ most_common_passwords = ["password", "password", "123456", "123456", "123456", "
                          "hottie", "freedom", "aa123456", "princess", "qazwsx", "ninja", "azerty", "123123", "solo",
                          "loveme", "whatever", "donald", "dragon", "michael", "mustang", "trustno1", "batman",
                          "passw0rd", "zaq1zaq1", "qazwsx", "password1", "password1", "Football", "password1", "000000",
-                         "trustno1", "starwars", "password1", "trustno1", "qwerty123", "123qwe"]
-empty_login = {"login": "", "password": most_common_passwords}
-not_existing_login = {"login": "any_user", "password": most_common_passwords}
+                         "trustno1", "starwars", "password1", "trustno1", "qwerty123", "123qwe"}
+
+
+pwd_list = list(most_common_passwords)
+l = len(pwd_list)
+empty_login = {"login": "", "password": pwd_list[randint(0, l)]}
+not_existing_login = {"login": "any_user", "password": pwd_list[randint(0, l)]}
 not_existing_password = {"login": "super_admin", "password": "wrong_pwd"}
 
 cookies = {}
@@ -38,11 +44,14 @@ for playload in [empty_login, not_existing_login, not_existing_password]:
     response = requests.post("https://playground.learnqa.ru/ajax/api/get_secret_password_homework", data=playload)
     if playload == empty_login:
         print(f"Login is empty {response.status_code}")
+        #print(playload)
     elif playload == not_existing_login:
         print(f"Login does not exist {response.status_code}")
+        #print(playload)
     elif playload == not_existing_password:
         print(f"Password is wrong {response.status_code}")
         print(response.text)
+        #print(playload)
 
 # passwords from the list 'Top 25 most common passwords by year according to SplashData'
 for password in most_common_passwords:
