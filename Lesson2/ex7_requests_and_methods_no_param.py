@@ -5,7 +5,6 @@ import requests
 def info_message(response):
     print(response.text)
     print(response.status_code)
-    return
 
 response1 = requests.get("https://playground.learnqa.ru/ajax/api/compare_query_type")
 info_message(response1)
