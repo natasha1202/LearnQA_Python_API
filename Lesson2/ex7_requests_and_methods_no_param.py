@@ -1,17 +1,20 @@
 import requests
 
 # part1. No parameters
+
+def info_message(response):
+    print(response.text)
+    print(response.status_code)
+    return
+
 response1 = requests.get("https://playground.learnqa.ru/ajax/api/compare_query_type")
-print(response1.text)
-print(response1.status_code)
+info_message(response1)
 response2 = requests.post("https://playground.learnqa.ru/ajax/api/compare_query_type")
-print(response2.text)
-print(response2.status_code)
+info_message(response2)
 response3 = requests.put("https://playground.learnqa.ru/ajax/api/compare_query_type")
-print(response3.text)
-print(response3.status_code)
+info_message(response3)
 response4 = requests.delete("https://playground.learnqa.ru/ajax/api/compare_query_type")
-print(response4.text)
-print(response4.status_code)
+info_message(response4)
+
 
 
