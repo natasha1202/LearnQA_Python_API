@@ -1,5 +1,6 @@
 import requests
 
+
 class TestMethodHeaders:
 
     def test_method_headers(self):

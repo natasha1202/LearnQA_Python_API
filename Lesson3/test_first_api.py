@@ -1,5 +1,6 @@
 import requests
 
+
 class TestFirstAPI:
     def test_hello_call(self):
         url = "https://playground.learnqa.ru/api/hello"
@@ -18,7 +19,7 @@ class TestFirstAPI:
     def test_hello_call_no_name(self):
         url = "https://playground.learnqa.ru/api/hello"
         name = 'Vitalii'
-        data = {'name': name}
+
         response = requests.get(url)
         assert response.status_code == 200, "Wrong response code"
 

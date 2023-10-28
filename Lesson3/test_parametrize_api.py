@@ -1,8 +1,8 @@
 import pytest
 import requests
 
-class TestFirstAPI:
 
+class TestFirstAPI:
     names = [
         ("Vitalii"),
         ("Arsenii"),
@@ -19,7 +19,7 @@ class TestFirstAPI:
         response_dict = response.json()
         assert "answer" in response_dict, "There is no field 'answer' in the response"
 
-        if len(name) ==0:
+        if len(name) == 0:
             expected_response_text = "Hello, someone"
         else:
             expected_response_text = f"Hello, {name}"
