@@ -98,9 +98,9 @@ class TestUserRegister(BaseCase):
             response = MyRequests.post("/user/", data=data)
             data = self.default_params()
 
-        Assertions.assert_code_status(response, 400)
-        assert response.content.decode("utf-8") == f"The value of '{key}' field is too short", \
-            f"Invalid error  text '{response.content}'"
+            Assertions.assert_code_status(response, 400)
+            assert response.content.decode("utf-8") == f"The value of '{key}' field is too short", \
+                f"Invalid error  text '{response.content}'"
 
     def test_create_user_with_too_long_name(self):
         data = self.default_params()
@@ -113,6 +113,6 @@ class TestUserRegister(BaseCase):
             response = MyRequests.post("/user/", data=data)
             data = self.default_params()
 
-        Assertions.assert_code_status(response, 400)
-        assert response.content.decode("utf-8") == f"The value of '{key}' field is too long", \
-            f"Invalid error  text '{response.content}'"
+            Assertions.assert_code_status(response, 400)
+            assert response.content.decode("utf-8") == f"The value of '{key}' field is too long", \
+                f"Invalid error  text '{response.content}'"
