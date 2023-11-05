@@ -76,8 +76,9 @@ class TestUserEdit(BaseCase):
         )
 
         Assertions.assert_code_status(response2, 400)
-        assert response2.content.decode("utf-8") == "Auth token not supplied", \
-            f"Wrong error message {response2.content}"
+        Assertions.assert_content_error_message(response2, "Auth token not supplied")
+        # assert response2.content.decode("utf-8") == "Auth token not supplied", \
+        #     f"Wrong error message {response2.content}"
 
 
     def test_edit_user_data_of_not_auth_user_by_auth_user(self):
@@ -184,8 +185,7 @@ class TestUserEdit(BaseCase):
         )
 
         Assertions.assert_code_status(response3, 400)
-        assert response3.content.decode("utf-8") == "Invalid email format", \
-            f"Wrong error message '{response3.content}"
+        Assertions.assert_content_error_message(response3, "Invalid email format")
 
         # GET
         response4 = MyRequests.get(

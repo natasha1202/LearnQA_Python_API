@@ -76,6 +76,8 @@ class TestUserGet(BaseCase):
             cookies={"auth_sid": self.auth_sid}
         )
 
+        Assertions.assert_code_status(response4, 200)
+
         Assertions.assert_json_has_key(response4, "username")
         Assertions.assert_json_has_not_key(response4, "firstName")
         Assertions.assert_json_has_not_key(response4, "lastName")

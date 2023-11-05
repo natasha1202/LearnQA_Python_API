@@ -32,9 +32,10 @@ class TestUserRegister(BaseCase):
         response = MyRequests.post("/user/", data=data)
 
         Assertions.assert_code_status(response, 400)
-        assert response.content.decode("utf-8") == f"Users with email '{email}' already exists", (
-            f"Unexpected status content "
-            f"{response.content}")
+        Assertions.assert_content_error_message(response, f"Users with email '{email}' already exists")
+        # assert response.content.decode("utf-8") == f"Users with email '{email}' already exists", (
+        #     f"Unexpected status content "
+        #     f"{response.content}")
 
     def test_create_user_with_incorrect_email(self):
         base_part = "learnqa"
@@ -85,8 +86,9 @@ class TestUserRegister(BaseCase):
         response = MyRequests.post("/user/", data=data)
 
         Assertions.assert_code_status(response, 400)
-        assert response.content.decode("utf-8") == f"The following required params are missed: {param}", \
-            f"Invalid error  text '{response.content}'"
+        Assertions.assert_content_error_message(response, f"The following required params are missed: {param}")
+        # assert response.content.decode("utf-8") == f"The following required params are missed: {param}", \
+        #     f"Invalid error  text '{response.content}'"
 
     def test_create_user_with_too_short_name(self):
         data = self.default_params()
@@ -99,8 +101,7 @@ class TestUserRegister(BaseCase):
             data = self.default_params()
 
             Assertions.assert_code_status(response, 400)
-            assert response.content.decode("utf-8") == f"The value of '{key}' field is too short", \
-                f"Invalid error  text '{response.content}'"
+            Assertions.assert_content_error_message(response, f"The value of '{key}' field is too short")
 
     def test_create_user_with_too_long_name(self):
         data = self.default_params()
@@ -114,5 +115,4 @@ class TestUserRegister(BaseCase):
             data = self.default_params()
 
             Assertions.assert_code_status(response, 400)
-            assert response.content.decode("utf-8") == f"The value of '{key}' field is too long", \
-                f"Invalid error  text '{response.content}'"
+            Assertions.assert_content_error_message(response, f"The value of '{key}' field is too long")
