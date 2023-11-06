@@ -24,6 +24,9 @@ class TestUserAuth(BaseCase):
         self.user_id_from_auth_method = self.get_json_value(response1, "user_id")
 
     @allure.description("This test successfully authorize user by email and password")
+    @allure.tag("Positive case")
+    @allure.severity(allure.severity_level.BLOCKER)
+    @allure.suite("smoke")
     def test_auth_user(self):
         response2 = MyRequests.get(
             "/user/auth",
@@ -39,7 +42,9 @@ class TestUserAuth(BaseCase):
         )
 
     @allure.description("This test checks authorization status without sending auth cookie or token")
+    @allure.tag("Negative case")
     @pytest.mark.parametrize("condition", exclude_params)
+    @allure.title("Test authorization. Negative test. (condition: {condition})")
     def test_negative_auth_check(self, condition):
         if condition == "no_cookie":
             response2 = MyRequests.get(

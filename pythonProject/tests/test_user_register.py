@@ -7,8 +7,10 @@ import datetime
 
 import string
 import random
+import allure
 
 
+@allure.epic("Registration cases")
 class TestUserRegister(BaseCase):
     exclude_params = [
         ("no_username"),
@@ -17,6 +19,11 @@ class TestUserRegister(BaseCase):
         ("no_email"),
         ("no_password")
     ]
+
+    @allure.description("This test successfully creates new user")
+    @allure.tag("Positive case")
+    @allure.severity(allure.severity_level.BLOCKER)
+    @allure.suite("smoke")
     def test_create_user_successfully(self):
         data = self.prepare_registration_data()
 
@@ -25,6 +32,8 @@ class TestUserRegister(BaseCase):
         Assertions.assert_code_status(response, 200)
         Assertions.assert_json_has_key(response, "id")
 
+    @allure.description("This test checks uniqueness of email. Creation of user with existing email is prohibited")
+    @allure.tag("Negative case")
     def test_create_user_with_existing_email(self):
         email = 'vinkotov@example.com'
         data = self.prepare_registration_data(email)
@@ -37,6 +46,8 @@ class TestUserRegister(BaseCase):
         #     f"Unexpected status content "
         #     f"{response.content}")
 
+    @allure.description("This test checks creation of user with email having incorrect format")
+    @allure.tag("Negative case")
     def test_create_user_with_incorrect_email(self):
         base_part = "learnqa"
         domain = "example.com"
@@ -50,7 +61,10 @@ class TestUserRegister(BaseCase):
         Assertions.assert_code_status(response, 400)
         assert response.text == 'Invalid email format', f"Invalid response text '{response.text}"
 
+    @allure.description("This test checks creation of user with missing mandatory fields")
+    @allure.tag("Negative case")
     @pytest.mark.parametrize("condition", exclude_params)
+    @allure.title("Test registration. Negative test. (condition: {condition})")
     def test_create_user_without_mandatory_field(self, condition):
         data = self.default_params()
 
@@ -90,6 +104,8 @@ class TestUserRegister(BaseCase):
         # assert response.content.decode("utf-8") == f"The following required params are missed: {param}", \
         #     f"Invalid error  text '{response.content}'"
 
+    @allure.description("This test checks creation of user with too short name")
+    @allure.tag("Negative case")
     def test_create_user_with_too_short_name(self):
         data = self.default_params()
         name = random.choice(string.ascii_letters)
@@ -103,6 +119,8 @@ class TestUserRegister(BaseCase):
             Assertions.assert_code_status(response, 400)
             Assertions.assert_content_error_message(response, f"The value of '{key}' field is too short")
 
+    @allure.description("This test checks creation of user with too long name")
+    @allure.tag("Negative case")
     def test_create_user_with_too_long_name(self):
         data = self.default_params()
         n = random.randint(251, 300)

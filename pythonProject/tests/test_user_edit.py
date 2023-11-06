@@ -3,8 +3,15 @@ from lib.base_case import BaseCase
 from lib.assertions import Assertions
 import random
 import string
+import allure
 
+
+@allure.epic("User information changing")
 class TestUserEdit(BaseCase):
+    @allure.description("This test successfully changes firstName of user")
+    @allure.tag("Positive case")
+    @allure.severity(allure.severity_level.CRITICAL)
+    @allure.suite("smoke")
     def test_edit_just_created_user(self):
         # REGISTER
         register_data = self.prepare_registration_data()
@@ -55,6 +62,8 @@ class TestUserEdit(BaseCase):
             new_name,
             "Wrong name of the user after edit")
 
+    @allure.description("This test checks editing of user details by not authorized user")
+    @allure.tag("Negative case")
     def test_edit_data_of_not_auth_user(self):
         # REGISTER
         register_data = self.prepare_registration_data()
@@ -80,7 +89,9 @@ class TestUserEdit(BaseCase):
         # assert response2.content.decode("utf-8") == "Auth token not supplied", \
         #     f"Wrong error message {response2.content}"
 
-
+    @allure.description(
+        "This test checks, that editing user data of not authorized user by another authorized user is prohibited")
+    @allure.tag("Negative case")
     def test_edit_user_data_of_not_auth_user_by_auth_user(self):
         # REGISTER USER1
         register_data1 = self.prepare_registration_data()
@@ -150,6 +161,8 @@ class TestUserEdit(BaseCase):
             (f"The name was changed. The name before change is {user_firstName_before_change}. "
              f"The new name is {current_firstName_of_user2}")
 
+    @allure.description("This test checks changing of user email on email with incorrect format")
+    @allure.tag("Negative case")
     def test_edit_email_just_created_user_wrong_email_format(self):
         # REGISTER
         register_data = self.prepare_registration_data()
@@ -199,6 +212,8 @@ class TestUserEdit(BaseCase):
         assert current_email == register_data["email"], f"Wrong email: {current_email}"
         assert current_email != new_email, f"Wrong email: {current_email}"
 
+    @allure.description("This test checks changing of user firstName on too short name")
+    @allure.tag("Negative case")
     def test_edit_user_data_too_short_firstname_same_user(self):
         # REGISTER
         register_data = self.prepare_registration_data()
@@ -253,5 +268,3 @@ class TestUserEdit(BaseCase):
 
         assert current_firstName == firstName_before_change, f"Wrong firstName: {current_firstName}"
         assert current_firstName != new_name, f"Wrong firstName: {current_firstName}"
-
-

@@ -1,7 +1,15 @@
 from lib.my_requests import MyRequests
 from lib.assertions import Assertions
 from lib.base_case import BaseCase
+import allure
+
+
+@allure.epic("Deletion cases")
 class TestUserDelete(BaseCase):
+    @allure.description("This test checks deletion of the fixed user. Deletion of the fixed users is prohibited")
+    @allure.tag("Positive case")
+    @allure.issue("JIRA-0001")
+    @allure.severity(allure.severity_level.CRITICAL)
     def test_delete_default_user(self):
         data = {
             'email': 'vinkotov@example.com',
@@ -28,6 +36,10 @@ class TestUserDelete(BaseCase):
         expected_fields = ["username", "email", "firstName", "lastName"]
         Assertions.assert_json_has_keys(response3, expected_fields)
 
+    @allure.description("This test successfully removes user")
+    @allure.tag("Positive case")
+    @allure.severity(allure.severity_level.CRITICAL)
+    @allure.suite("smoke")
     def test_delete_user_by_himself(self):
         # Create User
         data = self.prepare_registration_data()
@@ -67,6 +79,9 @@ class TestUserDelete(BaseCase):
         Assertions.assert_code_status(response4, 404)
         Assertions.assert_content_error_message(response4, "User not found")
 
+    @allure.description(
+        "This test checks whether deletion of not authorized user is allowed for another authorized user")
+    @allure.tag("Negative case")
     def test_delete_user_by_another_auth_user(self):
         # REGISTER USER1
         register_data1 = self.prepare_registration_data()
